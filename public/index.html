@@ -1,0 +1,94 @@
+<head>
+  <title>TweetVerse by DevAshu</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; 
+    }
+    .scene-tooltip {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 5px;
+      border-width: 1px;
+      border-color: rgba(255, 255, 255, 0.5);
+      padding: 20px;
+    }
+    .scene-tooltip span {
+      color: #0092FF;
+    }
+    .scene-tooltip:empty {
+      display: none;
+    }
+    .hero {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border-width: 1px;
+      text-align: center;
+      margin:10px;
+      font-family: Geneva,Tahoma,Verdana,sans-serif; 
+      border-color: rgba(255, 255, 255, 0.5);
+      padding: 15px;
+    }
+    .hero h1 {
+      color: #0092FF;
+    }
+    .hero:empty {
+      display: none;
+    }
+  </style>
+  <script src="//unpkg.com/globe.gl"></script>
+</head>
+
+<body>
+  <div class="hero">
+    <h1>TweetVerse</h1>
+  </div>
+  <div id="globe"></div>
+  <script type="module">
+    function sixtySecondsAgo() {
+      const date = new Date();
+      date.setSeconds(date.getSeconds() - 60);
+      return date.toISOString();
+    }
+
+    const globe = Globe()
+      .ringColor(() => "#1D9BF0")
+      .backgroundColor("black")
+      .atmosphereColor("#0083EB")
+      .pointColor(() => "#1D9BF0")
+      .pointLabel((d) => {
+        const minutesAgo = Math.floor(
+          Math.abs(new Date() - new Date(d.created_at)) / 1000 / 60
+        );
+        const displayTime = minutesAgo === 0 ? "now" : `${minutesAgo} min ago`;
+        return `<span><b>@${d.username}</b> tweeted in ${d.name} <br />
+                <i>${displayTime}</i></span>`;
+      })
+      .hexPolygonColor(() => "#78c5ff")
+      .pointsTransitionDuration(0)(document.getElementById("globe"));
+
+    const globeMaterial = globe.globeMaterial();
+    globeMaterial.color.set(0xCFD9DE)
+    globeMaterial.shininess = 15;
+
+
+    const countries = await fetch(
+      "//unpkg.com/three-conic-polygon-geometry@1.2.1/example/geojson/ne_110m_admin_0_countries.geojson"
+    ).then((x) => x.json());
+
+    globe.hexPolygonsData(countries.features);
+
+    setInterval(async () => {
+      const tweets = await fetch(`/tweets?from=${sixtySecondsAgo()}`).then(
+        (x) => x.json()
+      );
+      globe.pointsData(tweets);
+      globe.ringsData(tweets);
+    }, 5000);
+  </script>
+
+  <script src="https://replit.com/public/js/replit-badge.js" theme="blue" defer></script>
+</body>

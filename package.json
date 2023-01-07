@@ -1,0 +1,10 @@
+{
+  "name": "twitter-api-v2-sample-stream-demo",
+  "dependencies": {
+    "@replit/database": "^2.0.2",
+    "@types/node": "^18.0.6",
+    "express": "^4.18.1",
+    "node-fetch": "^3.2.6",
+    "twitter-api-sdk": "^1.1.0"
+  }
+}

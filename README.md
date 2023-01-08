@@ -1,4 +1,6 @@
 # Twitter API V2 Sample Stream Demo
+![Opera Snapshot_2023-01-08_234846_tweetverse ashutoshmohant1 repl co](https://user-images.githubusercontent.com/75971776/211212310-1ea75b50-f85c-4f3e-b37e-9ca3b95777bf.png)
+![Opera Snapshot_2023-01-08_234628_tweetverse ashutoshmohant1 repl co](https://user-images.githubusercontent.com/75971776/211212320-9f561beb-19b5-4784-ac6b-3b7f764f3e41.png)
 
 This is a demo to help you to get started making a Twitter API request, using a Bearer Token with the TypeScript SDK. It uses the [sample stream endpoint](https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream) to listen for new Tweets in real-time, and plots them onto a virtual globe (rendered using [Globe.GL](https://globe.gl/)) based on any location information included.
 
